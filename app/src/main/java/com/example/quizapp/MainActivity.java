@@ -1,11 +1,15 @@
 package com.example.quizapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -29,28 +33,57 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RecyclerView rvQuestion;
     QuestionAdapter questionAdapter;
     ArrayList<Question> quesArrayList;
+    TextView tvMain;
+    CountDownTimer timer;
 
-    Button btnOptionA, btnOptionB, btnOptionC, btnOptionD, btnMulai;
-
-    TextView tvQuestion;
     int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        tvMain = findViewById(R.id.tvMain);
 
         quesArrayList = new ArrayList<>();
-        rvQuestion = findViewById(R.id.rv_question);
-        rvQuestion.setHasFixedSize(true);
-        rvQuestion.setLayoutManager(new LinearLayoutManager(this));
 
+        new CountDownTimer(5000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tvMain.setText("Time is = " + millisUntilFinished/1000);
+            }
+
+            @Override
+            public void onFinish() {
+                Intent intent = new Intent(getApplicationContext(), QuestionActivity.class);
+                startActivity(intent);
+                finish();
+
+            }
+        }.start();
         loadQuestion();
+        rvQuestion = findViewById(R.id.rv_question);
+//        rvQuestion.setHasFixedSize(true);
+//        rvQuestion.setLayoutManager(new LinearLayoutManager(this));
+
+        setupRV();
+
+//        Presisten Data
+
 
 
 
     }
+
+    private void setupRV() {
+        rvQuestion.setLayoutManager(new LinearLayoutManager(rvQuestion.getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvQuestion.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        rvQuestion.setLayoutManager(linearLayoutManager);
+
+
+    }
+
 
 
     public void loadQuestion() {

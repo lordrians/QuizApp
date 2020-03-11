@@ -4,6 +4,7 @@ public class Question {
     private int id;
     private String question, option_a, option_b
             , option_c, option_d, correct_answer;
+    private Boolean clicked ;
 
     public Question(){
 
@@ -74,5 +75,13 @@ public class Question {
 
     public void setCorrect_answer(String correct_answer) {
         this.correct_answer = correct_answer;
+    }
+
+    public Boolean getClicked() {
+        return clicked;
+    }
+
+    public void setClicked(Boolean clicked) {
+        this.clicked = clicked;
     }
 }

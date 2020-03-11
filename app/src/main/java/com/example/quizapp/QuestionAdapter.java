@@ -1,6 +1,7 @@
 package com.example.quizapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
         Question question = quesList.get(position);
-        final String corAnsw=quesList.get(position).getCorrect_answer();
+
 
         holder.tvQuestion.setText(question.getQuestion());
         holder.btnOptionA.setText(question.getOption_a());
@@ -46,51 +47,91 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
         holder.btnOptionA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.btnOptionA.getText().toString().equals(corAnsw)){
-                    Toast.makeText(mContext, "Jawaban Benar",Toast.LENGTH_LONG).show();
+                if (holder.btnOptionA.getText().toString().equals(quesList.get(position).getCorrect_answer())){
+                    holder.btnOptionA.setBackgroundResource(R.drawable.selected_button);
+//                    Toast.makeText(mContext, "Jawaban Benar",Toast.LENGTH_LONG).show();
+                    Global.score +=10;
+                    Toast.makeText(mContext, String.valueOf(Global.score), Toast.LENGTH_LONG).show();
+
+
                 }else {
-                    Toast.makeText(mContext, "Jawaban Salah",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(mContext, "Jawaban Salah",Toast.LENGTH_LONG).show();
+
                 }
+                removeItem(position, holder);
             }
         });
 
         holder.btnOptionB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.btnOptionB.getText().toString().equals(corAnsw)){
-                    Toast.makeText(mContext, "Jawaban Benar",Toast.LENGTH_LONG).show();
+                if (holder.btnOptionB.getText().toString().equals(quesList.get(position).getCorrect_answer())){
+//                    Toast.makeText(mContext, "Jawaban Benar",Toast.LENGTH_LONG).show();
+                    Global.score +=10;
+                    Toast.makeText(mContext, String.valueOf(Global.score), Toast.LENGTH_LONG).show();
+
                 }else {
-                    Toast.makeText(mContext, "Jawaban Salah",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(mContext, "Jawaban Salah",Toast.LENGTH_LONG).show();
                 }
+                removeItem(position, holder);
             }
         });
 
         holder.btnOptionC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.btnOptionC.getText().toString().equals(corAnsw)){
-                    Toast.makeText(mContext, "Jawaban Benar",Toast.LENGTH_LONG).show();
+                if (holder.btnOptionC.getText().toString().equals(quesList.get(position).getCorrect_answer())){
+//                    Toast.makeText(mContext, "Jawaban Benar",Toast.LENGTH_LONG).show();
+                    Global.score +=10;
+                    Toast.makeText(mContext, String.valueOf(Global.score), Toast.LENGTH_LONG).show();
                 }else {
-                    Toast.makeText(mContext, "Jawaban Salah",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(mContext, "Jawaban Salah",Toast.LENGTH_LONG).show();
                 }
+                removeItem(position, holder);
             }
         });
 
         holder.btnOptionD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.btnOptionD.getText().toString().equals(corAnsw)){
-                    Toast.makeText(mContext, "Jawaban Benar",Toast.LENGTH_LONG).show();
+                if (holder.btnOptionD.getText().toString().equals(quesList.get(position).getCorrect_answer())){
+//                    Toast.makeText(mContext, "Jawaban Benar",Toast.LENGTH_LONG).show();
+                    Global.score +=10;
+                    Toast.makeText(mContext, String.valueOf(Global.score), Toast.LENGTH_LONG).show();
+
                 }else {
-                    Toast.makeText(mContext, "Jawaban Salah",Toast.LENGTH_LONG).show();
+//                    Toast.makeText(mContext, "Jawaban Salah",Toast.LENGTH_LONG).show();
                 }
+                removeItem(position, holder);
             }
         });
-
+        
 
 
 
     }
+
+    private void removeItem(int position, ViewHolder holder) {
+
+        if (quesList.size() == 1){
+//            holder.itemView.setVisibility(View.INVISIBLE);
+            quesList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemChanged(position);
+            notifyItemRangeChanged(position, quesList.size());
+            mContext.startActivity(new Intent(mContext, QuestionActivity.class));
+        }else {
+//            holder.itemView.setVisibility(View.INVISIBLE);
+            quesList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemChanged(position);
+            notifyItemRangeChanged(position, quesList.size());
+//            Toast.makeText(mContext, "Array" + String.valueOf(quesList.size()), Toast.LENGTH_SHORT).show();
+        }
+
+        
+    }
+
 
     @Override
     public int getItemCount() {
